@@ -24,17 +24,20 @@
 
   &_info {
     composes: flex_child;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
 
     h1 {
+      font-size: 4vw;
       text-align: center;
     }
 
-    &_login {
+    &_login_container {
       composes: flex_child_info;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      height: 100%;
       justify-content: center;
     }
   }

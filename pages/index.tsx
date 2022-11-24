@@ -11,7 +11,9 @@ function Home() {
         </section>
         <section className={styles.flex_child_info}>
           <h1>Gains counter</h1>
-          <Login className={styles.flex_child_info_login} />
+          <div className={styles.flex_child_info_login_container}>
+            <Login />
+          </div>
         </section>
       </div>
     </main>
