@@ -1,5 +1,41 @@
 .main {
-  padding: 20px 20px 60px;
-  max-width: 680px;
-  margin: 0 auto;
+  height: 100vh;
+  width: 100%;
+}
+
+.flex_parent {
+  display: flex;
+  height: 100%;
+}
+
+.flex_child {
+  flex: 1;
+
+  &_image {
+    composes: flex_child;
+    flex: 1.75;
+
+    img {
+      height: 100%;
+      vertical-align: middle;
+      width: 100%;
+    }
+  }
+
+  &_info {
+    composes: flex_child;
+    padding: 20px;
+
+    h1 {
+      text-align: center;
+    }
+
+    &_login {
+      composes: flex_child_info;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+  }
 }

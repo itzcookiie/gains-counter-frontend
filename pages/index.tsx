@@ -5,13 +5,13 @@ import Login from '../components/Login/index';
 function Home() {
   return (
     <main className={styles.main}>
-      <div>        
-        <section>
-          <img />
+      <div className={styles.flex_parent}>        
+        <section className={styles.flex_child_image}>
+          <img src='https://images.unsplash.com/photo-1521805103424-d8f8430e8933?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80' alt='' />
         </section>
-        <section>
+        <section className={styles.flex_child_info}>
           <h1>Gains counter</h1>
-          <Login />
+          <Login className={styles.flex_child_info_login} />
         </section>
       </div>
     </main>
