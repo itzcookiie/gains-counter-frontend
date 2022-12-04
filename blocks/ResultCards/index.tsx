@@ -1,4 +1,6 @@
-import Card from './Card/index';
+import styles from './cards.module.scss';
+
+import ResultCard from './ResultCard/index';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -12,21 +14,17 @@ interface Meal {
 
 interface Props {
   meals: Meal[];
-  addDeleteBtn?: boolean;
 }
 
-export default function Cards({ meals, addDeleteBtn }: Props) {
+export default function Cards({ meals }: Props) {
 
     return (
-      <Row className="py-5 g-5" xs={1} sm={2} xl={3}>
+      <Row className="py-5 g-3" xs={1} sm={2} md={3} xl={4}>
         {meals.map((meal, index) => (
           <Col key={index}>          
-            <Card
-              addDeleteBtn={addDeleteBtn}
-              mealName={meal.mealName}
+            <ResultCard 
               protein={meal.protein}
               calories={meal.calories}
-              mealType={meal.mealType}
               createdAt={meal.createdAt}
             />
           </Col>

@@ -1,17 +1,23 @@
-.flex_parent {
-    display: flex;
-    gap: 10px;
-    justify-content: space-evenly;
+.stat_container {
+    animation: 4s ease-out statCircle;
+    animation-fill-mode: forwards;
+    border: 3px solid transparent;
 }
 
-.flex_child {
-    align-items: center;
-    border-radius: 50%;
-    border: 2px solid rgba(3, 99, 25, 0.841);
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-    justify-content: center;
-    padding: 10px;
-    width: 100px;
+@keyframes statCircle {
+    25% {
+        border-left-color: green;
+    }
+    50% {
+        border-left-color: green;
+        border-bottom-color: green;
+    }
+    75% {
+        border-left-color: green;
+        border-bottom-color: green;
+        border-top-color: green;
+    }
+    100% {
+        border-color: green;
+    }
 }

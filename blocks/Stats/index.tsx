@@ -1,3 +1,7 @@
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Stack from 'react-bootstrap/Stack';
+
 import styles from './index.module.scss';
 
 interface Props {
@@ -10,13 +14,15 @@ interface Props {
 
 export default function Stats({ statResults }: Props) {
     return (
-      <div className={styles.flex_parent}>
-      {statResults.map((statResult, index) => (
-        <div key={index} className={styles.flex_child}>
-          <p className={styles.field}>{statResult.field}</p>
-          <p className={styles.result}>{statResult.score}/100</p>
-        </div>
+      <Row xs="auto" className="justify-content-center gx-2 text-center">
+        {statResults.map((statResult, index) => (
+          <Col key={index}>
+            <Stack className={`${styles.stat_container} rounded-circle px-4 py-2`}>
+              <p className="mt-3 mb-0 text-capitalize fw-bold">{statResult.field}</p>
+              <p className="">{statResult.score}/100</p>
+            </Stack>
+          </Col>
       ))}
-      </div>
+      </Row>
     )
 }
