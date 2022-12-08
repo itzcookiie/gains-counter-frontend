@@ -28,7 +28,9 @@ export default function Login() {
           <p>{session?.user?.email}</p>
           {/* <h3 className={styles.login_title}>Enter your username:</h3> */}
           {/* <input className={styles.input} onInput={handleInput} name="username" required /> */}
-          <button onClick={() => signIn()} className={styles.submit_button}>Log in</button>
+          {session?.user?.name
+          ? <button onClick={() => signOut()} className={styles.submit_button}>Log out</button>
+          : <button onClick={() => signIn()} className={styles.submit_button}>Log in</button>}
           {/* <p className={styles.login_tip}>If you do not have an account already, create one automatically by entering a chosen username</p> */}
         </form>
     )

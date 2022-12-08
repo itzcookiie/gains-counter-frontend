@@ -95,17 +95,17 @@ export default function Result() {
           <Container fluid className="text-center">
             <Row>
               <Col>
-              <h1>Detailed Result</h1>
+                <h1>Detailed Result</h1>
                 <h2>What you ate on</h2>
                 <h3>Nov 19</h3>
                 <Stats statResults={statResults} />
                 <Cards meals={data} addDeleteBtn={addDeleteBtn} />
               </Col>
-              <Col xs="auto pe-0">
+              {/* <Col className="pe-0" xs="auto">
                 <Stack className={`${styles.delete_container} border border-primary border-2 bg-info sticky-top vh-100 align-items-end justify-content-end`}>
                   <button onClick={(e) => setAddDeleteBtn(!addDeleteBtn)}>DELETE MODE</button>
                 </Stack>
-              </Col>
+              </Col> */}
             </Row>
           </Container>
           {addDeleteBtn && (
