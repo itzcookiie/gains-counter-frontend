@@ -1,4 +1,4 @@
-import { useSwr } from "swr";
+import useSwr from "swr";
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -7,7 +7,7 @@ const MEALS_API = '/api/meals/{id}';
 export const getRequest = (url: string) => {
     const { data, error } = useSwr(url, fetcher);
     return {
-        data,
+        data: data ?? [],
         isLoading: !error && !data,
         isError: error
     }

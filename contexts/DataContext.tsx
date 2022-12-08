@@ -6,12 +6,15 @@ interface Props {
     id: number;
 }
 
-const DataContext = createContext([]);
+export const DataContext = createContext({});
 
-const DataComponent = (props) => {
-    const [meals, setMeals] = useState([]);
+export const DataComponent = (props) => {
+    const [meals, setMeals] = useState({});
     const userMeals = getMeals(props.id);
-    setMeals(userMeals.data);
+    useEffect(() => {
+        setMeals(userMeals);
+    }, [userMeals]);
+
 
     return (
         <DataContext.Provider value={meals}>

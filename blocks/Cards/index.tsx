@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function Cards({ meals, addDeleteBtn }: Props) {
-
+  console.log(meals)
     return (
       <Row className="py-5 g-5" xs={1} sm={2} xl={3}>
         {meals.map((meal, index) => (

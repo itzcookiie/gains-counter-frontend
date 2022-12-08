@@ -6,7 +6,7 @@ import HomeNormal from '../components/HomeNormal/index';
 function Home() {
   return (
     <main>
-      <HomeLogin />
+      <HomeNormal />
     </main>
   )
 }

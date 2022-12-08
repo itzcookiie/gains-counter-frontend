@@ -1,22 +1,31 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 
-
 import styles from './home-normal.module.scss';
-import Form from '../../blocks/Form/index';
-import Stats from '../../blocks/Stats/index';
-import Cards from '../../blocks/Cards/index';
+import Form from '@blocks/Form/index';
+import Stats from '@blocks/Stats/index';
+import Cards from '@blocks/Cards/index';
+import { DataContext, DataComponent } from '@contexts/DataContext'
 
 function Home() {
+  const [d, setD] = useState([]);
   const statResults = [
     {score: 80, field: 'calories'},
     {score: 40, field: 'protein'}
   ];
 
-  const data = [
+  const data = useContext(DataContext);
+  useEffect(() => {
+    if(!data) return;
+    setD(data.data);
+  }, [data]);
+
+  console.log(data)
+
+  const oldData = [
     {
         "calories": 100,
         "createdAt": "Thu, 01 Dec 2022 23:40:33 GMT",
@@ -84,28 +93,30 @@ function Home() {
 ];
   
   return (
-    <Container fluid className="h-100">
-      <Row className="h-100">
-        <Col xs={12} sm={12} md={6} className="h-100">
-          <Row className="h-100 flex-column">
-            <Col className="flex-grow-0">
-              <h2 className="text-center">Add your meal to track gains</h2>
-            </Col>
-            <Col className="h-100">
-              <Form />
-            </Col>
-          </Row>
-        </Col>
-        <Col className="h-100">
-          <Stack gap={3} className="h-100">
-            <h2 className="text-center">Gains</h2>
-            <p className="text-center">See all the gains you've made so far</p>
-            <Stats statResults={statResults} />
-            <Cards meals={data} />
-          </Stack>
-        </Col>
-      </Row>
-    </Container>
+    <DataComponent id={1}>
+      <Container fluid className="h-100">
+        <Row className="h-100">
+          <Col xs={12} sm={12} md={6} className="h-100">
+            <Row className="h-100 flex-column">
+              <Col className="flex-grow-0">
+                <h2 className="text-center">Add your meal to track gains</h2>
+              </Col>
+              <Col className="h-100">
+                <Form />
+              </Col>
+            </Row>
+          </Col>
+          <Col className="h-100">
+            <Stack gap={3} className="h-100">
+              <h2 className="text-center">Gains</h2>
+              <p className="text-center">See all the gains you've made so far</p>
+              <Stats statResults={statResults} />
+              <Cards meals={d} />
+            </Stack>
+          </Col>
+        </Row>
+      </Container>
+    </DataComponent>
   )
 }
 
