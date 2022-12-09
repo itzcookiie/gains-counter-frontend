@@ -1,122 +1,75 @@
 import { useCallback, useEffect, useState, useContext } from 'react';
+import { useSession } from "next-auth/react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 
+import { getMeals } from '@lib/api';
+import { useUserIdContext, UserIdContext } from '@contexts/UserId';
+import { login } from '@lib/api';
+
 import styles from './home-normal.module.scss';
 import Form from '@blocks/Form/index';
 import Stats from '@blocks/Stats/index';
 import Cards from '@blocks/Cards/index';
-import { DataContext, DataComponent } from '@contexts/DataContext'
 
 function Home() {
-  const [d, setD] = useState([]);
+  const [userId, setUserId] = useContext(UserIdContext);
+  const { data: session } = useSession();
+
+  const {data: meals, isLoading, isError} = getMeals(userId);
+  useEffect(() => {
+    async function loginUser() {
+      if (session?.user?.email) {
+        const { data, resultCode } = await login(session.user.email);
+        if (data.result_code === resultCode.LOGIN_SUCCESS) {
+          setUserId(data.user.id)
+        } else {
+          console.error('Login failed!');
+          console.error(data.result_code);
+          console.error(data.result_message);
+        }
+      }
+    };
+
+    loginUser();
+  }, [session?.user?.email]);
+  
+  console.log(meals)
+
   const statResults = [
     {score: 80, field: 'calories'},
     {score: 40, field: 'protein'}
   ];
 
-  const data = useContext(DataContext);
-  useEffect(() => {
-    if(!data) return;
-    setD(data.data);
-  }, [data]);
-
-  console.log(data)
-
-  const oldData = [
-    {
-        "calories": 100,
-        "createdAt": "Thu, 01 Dec 2022 23:40:33 GMT",
-        "id": 1,
-        "mealName": "Cereal",
-        "mealType": "Food",
-        "protein": 100
-    },
-    {
-        "calories": 300,
-        "createdAt": "Thu, 01 Dec 2022 23:40:33 GMT",
-        "id": 2,
-        "mealName": "Cereal",
-        "mealType": "Drink",
-        "protein": 10
-    },
-    {
-        "calories": 100,
-        "createdAt": "Thu, 01 Dec 2022 23:40:33 GMT",
-        "id": 3,
-        "mealName": "Cereal",
-        "mealType": "Food",
-        "protein": 100
-    },
-    {
-        "calories": 250,
-        "createdAt": "Thu, 01 Dec 2022 23:40:33 GMT",
-        "id": 4,
-        "mealName": "Cereal",
-        "mealType": "Drink",
-        "protein": 30
-    },
-    {
-        "calories": 499,
-        "createdAt": "Thu, 01 Dec 2022 23:41:31 GMT",
-        "id": 9,
-        "mealName": "Jellof rice",
-        "mealType": "FOOD",
-        "protein": 200
-    },
-    {
-        "calories": 499,
-        "createdAt": "Thu, 01 Dec 2022 23:42:07 GMT",
-        "id": 10,
-        "mealName": "Jellof rice",
-        "mealType": "FOOD",
-        "protein": 200
-    },
-    {
-        "calories": 499,
-        "createdAt": "Thu, 01 Dec 2022 23:42:58 GMT",
-        "id": 11,
-        "mealName": "Jellof rice",
-        "mealType": "FOOD",
-        "protein": 200
-    },
-    {
-        "calories": 499,
-        "createdAt": "Thu, 01 Dec 2022 23:44:13 GMT",
-        "id": 12,
-        "mealName": "Jellof rice",
-        "mealType": "FOOD",
-        "protein": 205
-    }
-];
   
   return (
-    <DataComponent id={1}>
-      <Container fluid className="h-100">
-        <Row className="h-100">
-          <Col xs={12} sm={12} md={6} className="h-100">
-            <Row className="h-100 flex-column">
-              <Col className="flex-grow-0">
-                <h2 className="text-center">Add your meal to track gains</h2>
-              </Col>
-              <Col className="h-100">
-                <Form />
-              </Col>
-            </Row>
-          </Col>
-          <Col className="h-100">
-            <Stack gap={3} className="h-100">
-              <h2 className="text-center">Gains</h2>
-              <p className="text-center">See all the gains you've made so far</p>
-              <Stats statResults={statResults} />
-              <Cards meals={d} />
-            </Stack>
-          </Col>
-        </Row>
-      </Container>
-    </DataComponent>
+    <Container fluid className="h-100">
+    {isLoading ? <p>Loading...</p> : 
+      <Row className="h-100">
+        <Col xs={12} sm={12} md={6} className="h-100">
+          <Row className="h-100 flex-column">
+            <Col className="flex-grow-0">
+              <h2 className="text-center">Add your meal to track gains</h2>
+            </Col>
+            <Col className="h-100">
+              <Form />
+            </Col>
+          </Row>
+        </Col>
+        <Col className="h-100">
+          <Stack gap={3} className="h-100">
+            <h2 className="text-center">Gains</h2>
+            <p className="text-center">See all the gains you've made so far</p>
+            <Stats statResults={statResults} />
+            <Cards meals={meals} />
+          </Stack>
+        </Col>
+      </Row>
+      }
+    </Container>
+    
   )
 }
 

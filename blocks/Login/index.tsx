@@ -1,37 +1,56 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSwr } from "swr";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useUserIdContext } from '@contexts/UserId';
+
+import { login } from '@lib/api';
 
 import styles from './login.module.scss'
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
+interface FormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement;
+}
+
 export default function Login() {
   const [username, setUsername] = useState('');
   const { data: session } = useSession();
+  const [userId, setUserId] = useUserIdContext();
+  const router = useRouter();
+
 
   const handleInput = (e) => {
     setUsername(e.target.value);
   }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // const form = e.target;
-    // const inputElement = form.querySelector('input');
-    // const username = inputElement.value;
-    // console.log(username);
+    const form = e.target as HTMLFormElement;
+    const formElements = form.elements as FormElements;
+    const email = formElements.email.value;
+    console.log('Email: ', email);
+    const { data, resultCode } = await login(email);
+    if (data.result_code === resultCode.LOGIN_SUCCESS) {
+      // router.push('/results');
+    } else {
+      console.error('Login failed!');
+      console.error(data.result_code);
+      console.error(data.result_message);
+    }
   }
 
     return (
         <form onSubmit={handleFormSubmit}>
           <p>{session?.user?.name}</p>
           <p>{session?.user?.email}</p>
-          {/* <h3 className={styles.login_title}>Enter your username:</h3> */}
-          {/* <input className={styles.input} onInput={handleInput} name="username" required /> */}
-          {session?.user?.name
-          ? <button onClick={() => signOut()} className={styles.submit_button}>Log out</button>
-          : <button onClick={() => signIn()} className={styles.submit_button}>Log in</button>}
-          {/* <p className={styles.login_tip}>If you do not have an account already, create one automatically by entering a chosen username</p> */}
+          {/* <input className={styles.input} onInput={handleInput} name="email" required placeholder="Enter your email..." />
+          <button type="submit">Submit</button>
+          <p>OR</p> */}
+          {session?.user?.email
+          ? <button type="button" onClick={() => signOut()} className={styles.submit_button}>Log out with GMail</button>
+          : <button type="button" onClick={() => signIn("google")} className={styles.submit_button}>Log in with GMail</button>}
         </form>
     )
 }

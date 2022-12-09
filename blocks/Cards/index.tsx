@@ -5,9 +5,9 @@ import Col from 'react-bootstrap/Col';
 interface Meal {
   calories: number;
   protein: number;
-  mealType: string;
-  mealName: string;
-  createdAt: string;
+  meal_type: string;
+  meal_name: string;
+  created_at: string;
 }
 
 interface Props {
@@ -23,11 +23,11 @@ export default function Cards({ meals, addDeleteBtn }: Props) {
           <Col key={index}>          
             <Card
               addDeleteBtn={addDeleteBtn}
-              mealName={meal.mealName}
+              mealName={meal.meal_name}
               protein={meal.protein}
               calories={meal.calories}
-              mealType={meal.mealType}
-              createdAt={meal.createdAt}
+              mealType={meal.meal_type}
+              createdAt={meal.created_at}
             />
           </Col>
         ))}

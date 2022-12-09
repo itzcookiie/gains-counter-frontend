@@ -1,6 +1,6 @@
 import Results from '../../components/Results/index';
 
-function Home() {
+function ResultsPage() {
   return (
     <main>
       <Results />
@@ -8,4 +8,4 @@ function Home() {
   )
 }
 
-export default Home
+export default ResultsPage

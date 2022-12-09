@@ -22,7 +22,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@blocks/*": ["blocks/*"],
-      "@contexts/*": ["contexts/*"]
+      "@contexts/*": ["contexts/*"],
+      "@lib/*": ["lib/*"],
     }
   },
   "include": [
