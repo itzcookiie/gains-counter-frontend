@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useUserIdContext } from '@contexts/UserId';
 
 import { login } from '@lib/api';
+import { userSession } from '@lib/sessionStorage';
 
 import styles from './login.module.scss'
 
@@ -33,10 +34,11 @@ export default function Login() {
     console.log('Email: ', email);
     const { data, resultCode } = await login(email);
     if (data.result_code === resultCode.LOGIN_SUCCESS) {
-      // router.push('/results');
+      console.log(data.result_message);
+      userSession.saveUser(data.user.id);
+      setUserId(data.user.id);
     } else {
       console.error('Login failed!');
-      console.error(data.result_code);
       console.error(data.result_message);
     }
   }
@@ -45,12 +47,12 @@ export default function Login() {
         <form onSubmit={handleFormSubmit}>
           <p>{session?.user?.name}</p>
           <p>{session?.user?.email}</p>
-          {/* <input className={styles.input} onInput={handleInput} name="email" required placeholder="Enter your email..." />
+          <input className={styles.input} onInput={handleInput} name="email" type="email" required placeholder="Enter your email..." />
           <button type="submit">Submit</button>
-          <p>OR</p> */}
-          {session?.user?.email
+          {/* <p>OR</p> */}
+          {/* {session?.user?.email
           ? <button type="button" onClick={() => signOut()} className={styles.submit_button}>Log out with GMail</button>
-          : <button type="button" onClick={() => signIn("google")} className={styles.submit_button}>Log in with GMail</button>}
+          : <button type="button" onClick={() => signIn("google")} className={styles.submit_button}>Log in with GMail</button>} */}
         </form>
     )
 }

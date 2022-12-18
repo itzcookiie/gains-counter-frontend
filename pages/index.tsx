@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useState, useEffect } from 'react';
 
+import { useUserIdContext } from '@contexts/UserId';
 import HomeLogin from '../components/HomeLogin/index';
 import HomeNormal from '../components/HomeNormal/index';
+import { userSession } from '@lib/sessionStorage';
 
 function Home() {
-  const { data: session } = useSession();
+  const [userId, setUserId] = useUserIdContext();
+
+  useEffect(() => {
+    const storedUserId = userSession.getUser();
+    console.log(typeof storedUserId)
+    if (storedUserId && !Number.isInteger(userId)) {
+      setUserId(storedUserId)
+    };
+  }, [userId]);
 
   return (
     <main>
-      {session?.user?.email
-          ? <HomeNormal />
-          : <HomeLogin />}
+      {userId ? <HomeNormal /> : <HomeLogin />}
     </main>
   )
 }

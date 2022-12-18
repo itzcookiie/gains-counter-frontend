@@ -1,3 +1,27 @@
+$utilities: (
+  "width": (
+    property: width,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto,
+      fc: fit-content
+    )
+  ),
+  "overflow-x": (
+    property: overflow,
+    values: auto hidden visible scroll,
+  ),
+  "overflow-y": (
+    property: overflow,
+    values: auto hidden visible scroll,
+  )
+);
+
+
 @import "~bootstrap/scss/bootstrap";
 
 body {

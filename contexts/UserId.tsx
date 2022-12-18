@@ -1,9 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+
+import { userSession } from '@lib/sessionStorage';
+
 
 export const UserIdContext = createContext([null, (arg) => {}]);
 
 export const UserIdProvider = (props) => {
   const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    const storedUserId = userSession.getUser();
+    if (storedUserId && !Number.isInteger(userId)) {
+      setUserId(storedUserId)
+    };
+    
+  }, [userId]);
 
     return (
         <UserIdContext.Provider value={[userId, setUserId]}>
@@ -13,6 +23,5 @@ export const UserIdProvider = (props) => {
 }
 
 export function useUserIdContext() {
-    const [userId, setUserId] = useContext(UserIdContext);
-    return [userId, setUserId];
+    return useContext(UserIdContext);
 } 

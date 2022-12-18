@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './home-login.module.scss';
 import Login from '../../blocks/Login/index';
 
-function Home() {
+function HomeLogin() {
+
   return (
     <div className={styles.flex_parent}>        
         <section className={styles.flex_child_image}>
@@ -19,4 +20,4 @@ function Home() {
   )
 }
 
-export default Home
+export default HomeLogin
